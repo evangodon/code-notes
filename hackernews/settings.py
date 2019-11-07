@@ -93,7 +93,6 @@ WSGI_APPLICATION = 'hackernews.wsgi.application'
 # }
 DATABASES = {}
 DATABASES['default'] = dj_database_url.config(conn_max_age=600)
-# postgres://whhmgwxmslgetn:7ab7bb7e46537e9dce5995e3d38f65ead45baf6cef06ba7ff776e86700dea083@ec2-54-83-36-37.compute-1.amazonaws.com:5432/d1j5im302fh1g
 
 
 # Password validation
@@ -144,6 +143,5 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 django_heroku.settings(locals())
-
-if (DEBUG):
+if DEBUG:
     del DATABASES['default']['OPTIONS']['sslmode']
