@@ -25,7 +25,9 @@ SECRET_KEY = config('SECRET_KEY')
 
 DEBUG = config('DEBUG_VALUE', default=False, cast=bool)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'https://eg-django-hackernews.herokuapp.com'
+]
 
 
 # Application definition
@@ -82,6 +84,7 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+# postgres://whhmgwxmslgetn:7ab7bb7e46537e9dce5995e3d38f65ead45baf6cef06ba7ff776e86700dea083@ec2-54-83-36-37.compute-1.amazonaws.com:5432/d1j5im302fh1g
 
 
 # Password validation
