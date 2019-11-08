@@ -1,1 +1,1 @@
-web: gunicorn hackernews.wsgi
+web: gunicorn code_notes.wsgi

@@ -61,7 +61,7 @@ MIDDLEWARE = [
     'graphql_jwt.middleware.JSONWebTokenMiddleware',
 ]
 
-ROOT_URLCONF = 'hackernews.urls'
+ROOT_URLCONF = 'code_notes.urls'
 
 TEMPLATES = [
     {
@@ -79,7 +79,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'hackernews.wsgi.application'
+WSGI_APPLICATION = 'code_notes.wsgi.application'
 
 
 # Database
@@ -134,7 +134,7 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
 
 GRAPHENE = {
-    'SCHEMA': 'hackernews.schema.schema',
+    'SCHEMA': 'code_notes.schema.schema',
 }
 
 AUTHENTICATION_BACKENDS = [
