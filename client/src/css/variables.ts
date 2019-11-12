@@ -19,7 +19,7 @@ export const variables = {
   __grey_600: '#718096',
   __grey_700: '#4a5568',
   __grey_800: '#2d3748',
-  __grey_900: '#1a202c',
+  __grey_900: '#1e1f22',
 
   /* Font-sizes */
   __fs_xsmall: '1rem',
@@ -45,15 +45,12 @@ const sizes = {
 };
 
 /* Iterate through the sizes and create a media template */
-export const media = Object.keys(sizes).reduce(
-  (acc, label) => {
-    acc[label] = (literals: TemplateStringsArray, ...placeholders: any[]) =>
-      css`
-        @media (max-width: ${sizes[label]}px) {
-          ${css(literals, ...placeholders)};
-        }
-      `.join('');
-    return acc;
-  },
-  {} as Record<keyof typeof sizes, (l: TemplateStringsArray, ...p: any[]) => string>
-);
+export const media = Object.keys(sizes).reduce((acc, label) => {
+  acc[label] = (literals: TemplateStringsArray, ...placeholders: any[]) =>
+    css`
+      @media (max-width: ${sizes[label]}px) {
+        ${css(literals, ...placeholders)};
+      }
+    `.join('');
+  return acc;
+}, {} as Record<keyof typeof sizes, (l: TemplateStringsArray, ...p: any[]) => string>);

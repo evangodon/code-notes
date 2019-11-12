@@ -15,7 +15,8 @@ const TextEditor: React.FC = () => {
         options={{
           mode: "javascript",
           theme: "material",
-          lineNumbers: true
+          lineNumbers: true,
+          tabSize: 2
         }}
         onBeforeChange={(editor, data, value) => {
           setValue(value);
@@ -28,9 +29,13 @@ const TextEditor: React.FC = () => {
 
 const Container = styled.div`
   width: 100%;
-  max-width: 50rem;
+  max-width: 80rem;
   font-size: var(--fs-small);
   box-shadow: 0px 15px 40px rgba(0, 0, 0, 0.12);
+
+  .CodeMirror {
+    height: 50rem;
+  }
 `;
 
 export default TextEditor;

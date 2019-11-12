@@ -1,6 +1,6 @@
-import { createGlobalStyle } from "styled-components";
-import { normalize } from "polished";
-import { customProperties } from "./variables";
+import { createGlobalStyle } from 'styled-components';
+import { normalize } from 'polished';
+import { customProperties } from './variables';
 
 const GlobalStyle = createGlobalStyle`
 
@@ -49,6 +49,19 @@ const GlobalStyle = createGlobalStyle`
   a {
     color: inherit;
     text-decoration: none;
+  }
+
+
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--white);
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: var(--grey-500);
+  }
+
+  ::-webkit-scrollbar {
+    width: 3px;
   }
 
 `;
