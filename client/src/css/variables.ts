@@ -1,6 +1,6 @@
 import { css } from 'styled-components';
 
-export const variables = {
+export const variables: { [index: string]: string } = {
   /* Colors */
   __color_primary_light: '#90cdf4',
   __color_primary: '#4299e1',
@@ -8,6 +8,9 @@ export const variables = {
   __color_secondary_light: '#d6bcfa',
   __color_secondary: '#9f7aea',
   __color_secondary_dark: '#6b46c1',
+
+  __color_green: '#48BB78',
+  __color_red: '#E53E3E',
 
   __white: '#ffffff',
   __black: '#000000',
@@ -45,12 +48,15 @@ const sizes = {
 };
 
 /* Iterate through the sizes and create a media template */
-export const media = Object.keys(sizes).reduce((acc, label) => {
-  acc[label] = (literals: TemplateStringsArray, ...placeholders: any[]) =>
-    css`
-      @media (max-width: ${sizes[label]}px) {
-        ${css(literals, ...placeholders)};
+export const media = (Object.keys(sizes) as (keyof typeof sizes)[]).reduce(
+  (acc, label) => {
+    acc[label] = (first: any, ...interpolations: any[]) => css`
+      @media (max-width: ${sizes[label] / 16}em) {
+        ${css(first, ...interpolations)}
       }
-    `.join('');
-  return acc;
-}, {} as Record<keyof typeof sizes, (l: TemplateStringsArray, ...p: any[]) => string>);
+    `;
+
+    return acc;
+  },
+  {} as { [key in keyof typeof sizes]: any }
+);

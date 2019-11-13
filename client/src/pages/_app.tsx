@@ -1,10 +1,11 @@
 import React from 'react';
 import App from 'next/app';
 import Head from 'next/head';
-import styled, { ThemeProvider } from 'styled-components';
+import { ThemeProvider } from 'styled-components';
 import { GlobalStyles, variables as theme } from 'css';
 import Header from '@components/Header';
 import SubHeader from '@components/SubHeader';
+import DevIcons from '@components/icons/DevIcons';
 
 export default class MyApp extends App {
   render() {
@@ -20,7 +21,8 @@ export default class MyApp extends App {
           <>
             <Header />
             <SubHeader />
-            <Component {...pageProps} data-testid="hello" />
+            <Component {...pageProps} data-testid="" />
+            <DevIcons />
           </>
         </ThemeProvider>
         <GlobalStyles />

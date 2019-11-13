@@ -3,7 +3,6 @@ import { normalize } from 'polished';
 import { customProperties } from './variables';
 
 const GlobalStyle = createGlobalStyle`
-
   html {
     font-size: 62.5%;
   }
@@ -49,6 +48,11 @@ const GlobalStyle = createGlobalStyle`
   a {
     color: inherit;
     text-decoration: none;
+  }
+
+  button {
+    border: 0;
+    cursor: pointer;
   }
 
 
