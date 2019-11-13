@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Category } from '@interfaces';
 
 // https://konpa.github.io/devicon/
@@ -42,8 +42,8 @@ type Props = {
   size?: number;
 };
 
-export const DevIcon: React.FC<Props> = ({ id, size = 20 }) => (
+export const DevIcon: React.FC<Props> = memo(({ id, size = 20 }) => (
   <svg style={{ width: size, height: size }}>
     <use xlinkHref={`#${id}`} />
   </svg>
-);
+));
