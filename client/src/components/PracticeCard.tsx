@@ -52,7 +52,7 @@ const PracticeCard: React.FC<Props> = ({ practiceCard }) => {
 const Container = styled.div`
   box-shadow: 0px 15px 40px rgba(0, 0, 0, 0.12);
   background-color: var(--grey-900);
-  padding: 3rem;
+  padding: 2.4rem;
   border-radius: var(--border-radius);
   width: 100%;
   max-width: 50rem;
@@ -76,6 +76,7 @@ const Category = styled.span`
 
 const Header = styled.h3`
   font-size: var(--fs-medium);
+  font-weight: normal;
   margin-bottom: 2rem;
 `;
 

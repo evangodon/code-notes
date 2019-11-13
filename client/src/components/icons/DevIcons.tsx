@@ -1,6 +1,8 @@
 import React from 'react';
 import { Category } from '@interfaces';
 
+// https://konpa.github.io/devicon/
+
 export default () => (
   <svg width={0} height={0} style={{ display: 'none' }}>
     <symbol viewBox="0 0 128 128" id="node">
