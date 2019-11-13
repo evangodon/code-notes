@@ -9,6 +9,7 @@ module.exports = {
       {
         root: ['./'],
         alias: {
+          '@pages': './src/pages',
           '@components': './src/components',
           css: './src/css',
           constants: './src/constants',

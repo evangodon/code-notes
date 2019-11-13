@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { PracticeCard as IPracticeCard } from '@interfaces';
 import { DevIcon } from './icons/DevIcons';
 import UpperCase from './UpperCase';
+import Box from '@components/layout/Box';
 
 type Props = {
   practiceCard: IPracticeCard;
@@ -36,7 +37,7 @@ const PracticeCard: React.FC<Props> = ({ practiceCard }) => {
           <DevIcon id={practiceCard.category} size={15} />
           <UpperCase text={practiceCard.category} />
         </Category>
-        <Header>{practiceCard.title}</Header>
+        <Header>{practiceCard.question}</Header>
         <AnswerInput
           autoFocus
           value={answer}
@@ -49,11 +50,7 @@ const PracticeCard: React.FC<Props> = ({ practiceCard }) => {
   );
 };
 
-const Container = styled.div`
-  box-shadow: 0px 15px 40px rgba(0, 0, 0, 0.12);
-  background-color: var(--grey-900);
-  padding: 2.4rem;
-  border-radius: var(--border-radius);
+const Container = styled(Box)`
   width: 100%;
   max-width: 50rem;
   margin-bottom: 6rem;
