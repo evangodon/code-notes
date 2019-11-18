@@ -15,9 +15,7 @@ class Query(graphene.ObjectType):
     )
 
     def resolve_practice_cards(self, info, **kwargs):
-
-        print(PracticeCard.objects.all())
-        return []
+        return PracticeCard.objects.all()
 
 
 class CreatePracticeCard(graphene.Mutation):
