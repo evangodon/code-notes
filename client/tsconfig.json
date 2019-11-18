@@ -17,6 +17,7 @@
     "paths": {
       "@pages/*": ["src/pages/*"],
       "@components/*": ["./src/components/*"],
+      "@lib/*": ["./src/lib/*"],
       "css": ["./src/css"],
       "constants/*": ["./src/constants/*"],
       "context": ["./src/context"],

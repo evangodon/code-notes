@@ -16,6 +16,7 @@ module.exports = {
           style: './src/style',
           utils: './src/utils',
           hooks: './src/hooks',
+          '@lib': './src/lib',
         },
       },
     ],

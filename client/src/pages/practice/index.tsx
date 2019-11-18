@@ -4,8 +4,11 @@ import Link from 'next/link';
 import styled from 'styled-components';
 import AppContainer from '@components/layout/AppContainer';
 import PracticeCard from '@components/PracticeCard';
+import { useQuery } from '@apollo/react-hooks';
+import gql from 'graphql-tag';
 import Button from '@components/Button';
 import { PracticeCard as IPracticeCard } from '@interfaces';
+import { withApollo } from '@lib/apollo';
 
 const practiceCards: IPracticeCard[] = [
   {
@@ -22,7 +25,20 @@ const practiceCards: IPracticeCard[] = [
   },
 ];
 
+const ALL_PRACTICE_CARDS_QUERY = gql`
+  {
+    practiceCards {
+      id
+      question
+      answer
+    }
+  }
+`;
+
 const practice: NextPage = () => {
+  const { loading, error, data } = useQuery(ALL_PRACTICE_CARDS_QUERY);
+
+  console.log({ data, error });
   return (
     <PracticeContainer>
       <span />
@@ -49,4 +65,4 @@ const PracticeCards = styled.ul`
   flex-direction: column;
 `;
 
-export default practice;
+export default withApollo(practice);
