@@ -9,26 +9,13 @@ import gql from 'graphql-tag';
 import Button from '@components/Button';
 import { PracticeCard as IPracticeCard } from '@interfaces';
 import { withApollo } from '@lib/apollo';
+import { ROUTES } from 'constants/routes';
 
-const practiceCards: IPracticeCard[] = [
-  {
-    id: '1',
-    category: 'python',
-    question: 'How do you check the length of a list?',
-    answer: 'len()',
-  },
-  {
-    id: '2',
-    category: 'javascript',
-    question: 'What is the prototype?',
-    answer: 'len()',
-  },
-];
-
-const ALL_PRACTICE_CARDS_QUERY = gql`
+export const ALL_PRACTICE_CARDS_QUERY = gql`
   {
     practiceCards {
       id
+      category
       question
       answer
     }
@@ -38,16 +25,17 @@ const ALL_PRACTICE_CARDS_QUERY = gql`
 const practice: NextPage = () => {
   const { loading, error, data } = useQuery(ALL_PRACTICE_CARDS_QUERY);
 
-  console.log({ data, error });
   return (
     <PracticeContainer>
       <span />
       <PracticeCards>
-        {practiceCards.map((card) => (
-          <PracticeCard practiceCard={card} key={card.id} />
-        ))}
+        {loading
+          ? null
+          : data.practiceCards.map((card: IPracticeCard) => (
+              <PracticeCard practiceCard={card} key={card.id} />
+            ))}
       </PracticeCards>
-      <Link href="/practice/add">
+      <Link href={ROUTES.PRACTICE.ADD}>
         <Button as="a">Add Card</Button>
       </Link>
     </PracticeContainer>

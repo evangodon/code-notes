@@ -2,12 +2,33 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
 import { NextPage } from 'next';
+import Router from 'next/router';
 import { ChevronLeft } from 'react-feather';
+import gql from 'graphql-tag';
+import { withApollo } from '@lib/apollo';
+import { useMutation } from '@apollo/react-hooks';
 import { PracticeContainer } from '@pages/practice';
 import Box from '@components/layout/Box';
 import Input from '@components/forms/Input';
 import Button from '@components/Button';
 import { PracticeCard } from '@interfaces';
+import { ROUTES } from 'constants/routes';
+import { ALL_PRACTICE_CARDS_QUERY } from './index';
+
+const ADD_PRACTICE_CARD = gql`
+  mutation CreatePracticeCard(
+    $category: String!
+    $question: String!
+    $answer: String
+  ) {
+    createPracticeCard(category: $category, question: $question, answer: $answer) {
+      id
+      category
+      question
+      answer
+    }
+  }
+`;
 
 const add: NextPage = () => {
   const [values, setValues] = useState<PracticeCard>({
@@ -15,6 +36,18 @@ const add: NextPage = () => {
     question: '',
     category: 'javascript',
     answer: '',
+  });
+  const [createPracticeCard, { data }] = useMutation(ADD_PRACTICE_CARD, {
+    update(cache, { data: { createPracticeCard } }) {
+      const { practiceCards } = cache.readQuery<{ practiceCards: PracticeCard[] }>({
+        query: ALL_PRACTICE_CARDS_QUERY,
+      }) || { practiceCards: [] };
+      console.log({ data });
+      cache.writeQuery({
+        query: ALL_PRACTICE_CARDS_QUERY,
+        data: { practiceCards: practiceCards.concat([createPracticeCard]) },
+      });
+    },
   });
 
   function handleChange(name: keyof PracticeCard) {
@@ -26,7 +59,10 @@ const add: NextPage = () => {
   function handleSubmit(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     event.preventDefault();
 
-    console.log('Create new card', values);
+    const { id, ...data } = values;
+    createPracticeCard({ variables: data });
+
+    Router.push(ROUTES.PRACTICE.ROOT);
   }
 
   return (
@@ -72,4 +108,4 @@ const Header = styled.h3`
   margin-bottom: 3.6rem;
 `;
 
-export default add;
+export default withApollo(add);

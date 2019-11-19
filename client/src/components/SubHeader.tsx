@@ -11,6 +11,7 @@ const routes = {
 const SubHeader = () => {
   const router = useRouter();
   const path = router.pathname.split('/').filter(Boolean);
+  const firstPath = path[0] || '';
 
   return (
     <Container>
@@ -18,7 +19,7 @@ const SubHeader = () => {
         {Object.values(routes).map((routeData, index) => (
           <Link href={routeData.asPath} key={index}>
             <a>
-              <Route active={`/${path[0]}` === routeData.asPath}>
+              <Route active={`/${firstPath}` === routeData.asPath}>
                 {routeData.route}
               </Route>
             </a>
