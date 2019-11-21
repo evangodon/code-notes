@@ -42,8 +42,14 @@ type Props = {
   size?: number;
 };
 
-export const DevIcon: React.FC<Props> = memo(({ id, size = 20 }) => (
-  <svg style={{ width: size, height: size }}>
-    <use xlinkHref={`#${id}`} />
-  </svg>
-));
+export const DevIcon: React.FC<Props> = memo(({ id, size = 20 }) => {
+  if (!id) {
+    return null;
+  }
+
+  return (
+    <svg style={{ width: size, height: size }}>
+      <use xlinkHref={`#${id}`} />
+    </svg>
+  );
+});

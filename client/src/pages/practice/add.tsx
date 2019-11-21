@@ -7,13 +7,16 @@ import { ChevronLeft } from 'react-feather';
 import gql from 'graphql-tag';
 import { withApollo } from '@lib/apollo';
 import { useMutation } from '@apollo/react-hooks';
+import dynamic from 'next/dynamic';
 import { PracticeContainer } from '@pages/practice';
 import Box from '@components/layout/Box';
 import Input from '@components/forms/Input';
 import Button from '@components/Button';
-import { PracticeCard } from '@interfaces';
+import { PracticeCard, Category } from '@interfaces';
 import { ROUTES } from 'constants/routes';
 import { ALL_PRACTICE_CARDS_QUERY } from './index';
+
+const Select = dynamic(() => import('react-select'), { ssr: false });
 
 const ADD_PRACTICE_CARD = gql`
   mutation CreatePracticeCard(
@@ -30,11 +33,22 @@ const ADD_PRACTICE_CARD = gql`
   }
 `;
 
-const add: NextPage = () => {
+type Option = {
+  value: Category;
+  label: string;
+};
+
+const options: Option[] = [
+  { value: 'javascript', label: 'JavaScript' },
+  { value: 'python', label: 'Python' },
+  { value: 'node', label: 'Node' },
+];
+
+const Add: NextPage = () => {
   const [values, setValues] = useState<PracticeCard>({
     id: -1,
     question: '',
-    category: 'javascript',
+    category: '',
     answer: '',
   });
   const [createPracticeCard, { data }] = useMutation(ADD_PRACTICE_CARD, {
@@ -42,13 +56,17 @@ const add: NextPage = () => {
       const { practiceCards } = cache.readQuery<{ practiceCards: PracticeCard[] }>({
         query: ALL_PRACTICE_CARDS_QUERY,
       }) || { practiceCards: [] };
-      console.log({ data });
+
       cache.writeQuery({
         query: ALL_PRACTICE_CARDS_QUERY,
         data: { practiceCards: practiceCards.concat([createPracticeCard]) },
       });
     },
   });
+
+  function handleCategoryChange(selectedCategory: Option) {
+    setValues({ ...values, category: selectedCategory.value });
+  }
 
   function handleChange(name: keyof PracticeCard) {
     return (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -73,30 +91,75 @@ const add: NextPage = () => {
           <span>Return</span>
         </ExitLink>
       </Link>
-      <Form as="form">
+      <CenterContainer>
         <Header>Add Card</Header>
-        <Input label="Question" onChange={handleChange('question')} />
-        <Input label="Answer" onChange={handleChange('answer')} />
-        <Button onClick={handleSubmit}>Submit</Button>
-      </Form>
+        <Form>
+          <CategoryLabel>Category</CategoryLabel>
+          <CategorySelect
+            label="Single select"
+            value={{ label: values.category, value: values.category }}
+            onChange={handleCategoryChange}
+            options={options}
+            theme={(theme: any) => ({
+              ...theme,
+              borderRadius: 'var(--border-radius)',
+              colors: {
+                ...theme.colors,
+                primary25: 'var(--grey-200)',
+                primary: 'var(--grey-500)',
+              },
+            })}
+          />
+          <Input label="Question" onChange={handleChange('question')} />
+          <Input label="Answer" onChange={handleChange('answer')} />
+          <Button onClick={handleSubmit}>Submit</Button>
+        </Form>
+      </CenterContainer>
     </Container>
   );
 };
 
 const Container = styled(PracticeContainer)``;
 
-const ExitLink = styled.a`
-  display: flex;
-  align-items: start;
+const CategorySelect = styled(Select)`
+  width: 100%;
+  font-size: var(--fs-small);
+  margin-bottom: 1.8rem;
+  color: var(--black);
+  min-height: 3.8rem;
+`;
+
+const CategoryLabel = styled.label`
+  margin-bottom: 0.8rem;
   margin-right: auto;
+  font-size: var(--fs-small);
+`;
+
+const ExitLink = styled.a`
+  display: inline-flex;
+  align-items: center;
+  margin-right: auto;
+  transition: opacity 0.2s ease;
+  height: min-content;
+  font-size: var(--fs-small);
+
+  &:hover {
+    opacity: 0.8;
+  }
 
   svg {
+    width: 1.5rem;
     position: relative;
-    bottom: 2px;
   }
 `;
 
-const Form = styled(Box)`
+const CenterContainer = styled(Box)`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const Form = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -108,4 +171,4 @@ const Header = styled.h3`
   margin-bottom: 3.6rem;
 `;
 
-export default withApollo(add);
+export default withApollo(Add);

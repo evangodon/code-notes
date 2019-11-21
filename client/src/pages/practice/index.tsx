@@ -2,10 +2,11 @@ import React from 'react';
 import { NextPage } from 'next';
 import Link from 'next/link';
 import styled from 'styled-components';
-import AppContainer from '@components/layout/AppContainer';
-import PracticeCard from '@components/PracticeCard';
 import { useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
+import AppContainer from '@components/layout/AppContainer';
+import PracticeCard from '@components/PracticeCard';
+import Categories from '@components/Categories';
 import Button from '@components/Button';
 import { PracticeCard as IPracticeCard } from '@interfaces';
 import { withApollo } from '@lib/apollo';
@@ -22,12 +23,12 @@ export const ALL_PRACTICE_CARDS_QUERY = gql`
   }
 `;
 
-const practice: NextPage = () => {
+const PracticeHome: NextPage = () => {
   const { loading, error, data } = useQuery(ALL_PRACTICE_CARDS_QUERY);
 
   return (
     <PracticeContainer>
-      <span />
+      <Categories />
       <PracticeCards>
         {loading
           ? null
@@ -45,12 +46,13 @@ const practice: NextPage = () => {
 export const PracticeContainer = styled(AppContainer)`
   display: grid;
   grid-template-columns: 20rem 1fr 20rem;
-  justify-items: center;
 `;
 
 const PracticeCards = styled.ul`
   display: flex;
+  align-items: center;
   flex-direction: column;
+  width: 100%;
 `;
 
-export default withApollo(practice);
+export default withApollo(PracticeHome);

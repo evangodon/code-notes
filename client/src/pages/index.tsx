@@ -18,6 +18,15 @@ const IndexPage: NextPage = () => {
   );
 };
 
+IndexPage.getInitialProps = async ({ req, res }) => {
+  if (res) {
+    res.writeHead(302, { Location: '/practice' });
+
+    res.end();
+  }
+  return { res: 'redirect' };
+};
+
 const Container = styled(AppContainer)`
   display: flex;
   justify-content: center;

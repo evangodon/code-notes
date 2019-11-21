@@ -19,7 +19,6 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  max-width: 40rem;
   margin-bottom: 2.4rem;
 `;
 
@@ -29,9 +28,10 @@ const Label = styled.label`
 `;
 
 const StyledInput = styled.input`
-  padding: 0.6rem 1.2rem;
+  padding: 1.2rem;
   border-radius: var(--border-radius);
   border: 0;
+  font-size: var(--fs-medium);
 `;
 
 export default Input;

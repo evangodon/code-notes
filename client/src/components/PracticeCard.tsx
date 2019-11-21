@@ -4,6 +4,7 @@ import { PracticeCard as IPracticeCard } from '@interfaces';
 import { DevIcon } from './icons/DevIcons';
 import UpperCase from './UpperCase';
 import Box from '@components/layout/Box';
+import Button from '@components/Button';
 
 type Props = {
   practiceCard: IPracticeCard;
@@ -11,9 +12,13 @@ type Props = {
 
 type Status = 'CORRECT' | 'INCORRECT' | 'DEFAULT';
 
+/**
+ * @todo: Finish styling the attempts dots
+ */
 const PracticeCard: React.FC<Props> = ({ practiceCard }) => {
   const [answer, setAnswer] = useState('');
   const [status, setStatus] = useState<Status>('DEFAULT');
+  const [attempts, setAttemps] = useState<Status[]>([]);
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     setAnswer(event.target.value);
@@ -25,8 +30,10 @@ const PracticeCard: React.FC<Props> = ({ practiceCard }) => {
 
     if (answer === practiceCard.answer) {
       setStatus('CORRECT');
+      setAttemps([...attempts, 'CORRECT']);
     } else {
       setStatus('INCORRECT');
+      setAttemps([...attempts, 'INCORRECT']);
     }
   }
 
@@ -45,15 +52,21 @@ const PracticeCard: React.FC<Props> = ({ practiceCard }) => {
           status={status}
         />
       </Form>
-      {status === 'CORRECT' && <NextButton>Next</NextButton>}
+      <Bottom>
+        <Attempts>
+          {attempts.map((attempt: Status) => (
+            <span>{attempt}</span>
+          ))}
+        </Attempts>
+        {status && <CloseButton>Close</CloseButton>}
+      </Bottom>
     </Container>
   );
 };
 
 const Container = styled(Box)`
-  width: 100%;
   max-width: 50rem;
-  margin-bottom: 6rem;
+  margin-bottom: 4.6rem;
 `;
 
 const Form = styled.form``;
@@ -94,10 +107,16 @@ const AnswerInput = styled.input<{ status: Status }>`
   width: 100%;
 `;
 
-const NextButton = styled.button`
+const Bottom = styled.div`
+  display: flex;
+  align-items: center;
   margin-top: 1.8rem;
-  padding: 0.6rem 1.2rem;
-  border-radius: var(--border-radius);
+`;
+
+const Attempts = styled.div``;
+
+const CloseButton = styled(Button)`
+  margin-left: auto;
 `;
 
 export default PracticeCard;
