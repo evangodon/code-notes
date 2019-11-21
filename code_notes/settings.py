@@ -64,7 +64,9 @@ MIDDLEWARE = [
     'graphql_jwt.middleware.JSONWebTokenMiddleware',
 ]
 
-CORS_ORIGIN_WHITELIST = []
+CORS_ORIGIN_WHITELIST = [
+    'https://code-notes.now.sh'
+]
 if DEBUG:
     CORS_ORIGIN_WHITELIST.append(
         'http://localhost:3000'
