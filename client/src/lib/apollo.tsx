@@ -122,6 +122,10 @@ function initApolloClient(initialState?: any) {
   return apolloClient;
 }
 
+const GRAPHQL_URL = DEV
+  ? 'http://localhost:8000/graphql'
+  : 'https://eg-code-notes.herokuapp.com/grahql';
+
 /**
  * Creates and configures the ApolloClient
  * @param  {Object} [initialState={}]
@@ -130,7 +134,7 @@ function createApolloClient(initialState = {}) {
   return new ApolloClient({
     ssrMode: isSSR,
     link: new HttpLink({
-      uri: 'http://localhost:8000/graphql/',
+      uri: GRAPHQL_URL,
       fetch,
     }),
     cache: new InMemoryCache().restore(initialState),
