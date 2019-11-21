@@ -23,6 +23,9 @@ export const ALL_PRACTICE_CARDS_QUERY = gql`
   }
 `;
 
+/**
+ * @todo: handle request error
+ */
 const PracticeHome: NextPage = () => {
   const { loading, error, data } = useQuery(ALL_PRACTICE_CARDS_QUERY);
 
