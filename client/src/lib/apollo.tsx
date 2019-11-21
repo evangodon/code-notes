@@ -123,8 +123,8 @@ function initApolloClient(initialState?: any) {
 }
 
 const GRAPHQL_URL = DEV
-  ? 'http://localhost:8000/graphql'
-  : 'https://eg-code-notes.herokuapp.com/graphql';
+  ? 'http://localhost:8000/graphql/'
+  : 'https://eg-code-notes.herokuapp.com/graphql/';
 
 /**
  * Creates and configures the ApolloClient
