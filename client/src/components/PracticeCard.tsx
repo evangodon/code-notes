@@ -8,6 +8,7 @@ import Button from '@components/Button';
 
 type Props = {
   practiceCard: IPracticeCard;
+  hideCard: (id: string) => void;
 };
 
 type Status = 'DEFAULT' | 'CORRECT' | 'INCORRECT' | 'SHOW_ANSWER';
@@ -15,7 +16,7 @@ type Status = 'DEFAULT' | 'CORRECT' | 'INCORRECT' | 'SHOW_ANSWER';
 /**
  * @todo: Finish styling the attempts dots
  */
-const PracticeCard: React.FC<Props> = ({ practiceCard }) => {
+const PracticeCard: React.FC<Props> = ({ practiceCard, hideCard }) => {
   const [answer, setAnswer] = useState('');
   const [status, setStatus] = useState<Status>('DEFAULT');
   const [attempts, setAttemps] = useState<Status[]>([]);
@@ -25,6 +26,10 @@ const PracticeCard: React.FC<Props> = ({ practiceCard }) => {
       setStatus('SHOW_ANSWER');
     }
   }, [attempts]);
+
+  function handleCloseClick() {
+    hideCard(String(practiceCard.id));
+  }
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     setAnswer(event.target.value);
@@ -69,7 +74,7 @@ const PracticeCard: React.FC<Props> = ({ practiceCard }) => {
           ))}
         </Attempts>
         {(status === 'CORRECT' || status === 'SHOW_ANSWER') && (
-          <CloseButton>Close</CloseButton>
+          <CloseButton onClick={handleCloseClick}>Close</CloseButton>
         )}
       </Bottom>
     </Container>

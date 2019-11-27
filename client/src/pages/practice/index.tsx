@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
@@ -29,9 +29,14 @@ export const ALL_PRACTICE_CARDS_QUERY = gql`
  * @todo: filter cards with category
  */
 const PracticeHome: NextPage = () => {
+  const [hidden, setHidden] = useState<Set<string | -1>>(new Set());
   const { loading, error, data } = useQuery(ALL_PRACTICE_CARDS_QUERY);
   const router = useRouter();
   const categoryFilter = router.query.category;
+
+  function hideCard(id: string) {
+    setHidden(new Set(hidden).add(id));
+  }
 
   return (
     <PracticeContainer>
@@ -40,11 +45,16 @@ const PracticeHome: NextPage = () => {
         {loading
           ? null
           : data.practiceCards
+              .filter((card: IPracticeCard) => !hidden.has(card.id))
               .filter((card: IPracticeCard) =>
                 categoryFilter ? card.category === categoryFilter : true
               )
               .map((card: IPracticeCard) => (
-                <PracticeCard practiceCard={card} key={card.id} />
+                <PracticeCard
+                  practiceCard={card}
+                  key={card.id}
+                  hideCard={hideCard}
+                />
               ))}
       </PracticeCards>
       <Link href={ROUTES.PRACTICE.ADD}>
