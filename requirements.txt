@@ -12,6 +12,7 @@ graphene-django==2.2.0
 graphql-core==2.2.1
 graphql-relay==2.0.0
 gunicorn==19.9.0
+newrelic==5.4.0.132
 promise==2.2.1
 psycopg2==2.8.4
 pycodestyle==2.5.0
