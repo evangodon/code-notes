@@ -15,6 +15,7 @@ import Button from '@components/Button';
 import { PracticeCard, Category } from '@interfaces';
 import { ROUTES } from 'constants/routes';
 import { ALL_PRACTICE_CARDS_QUERY } from './index';
+import { CATEGORIES } from 'constants/index';
 
 const Select = dynamic(() => import('react-select'), { ssr: false });
 
@@ -38,11 +39,10 @@ type Option = {
   label: string;
 };
 
-const options: Option[] = [
-  { value: 'javascript', label: 'JavaScript' },
-  { value: 'python', label: 'Python' },
-  { value: 'node', label: 'Node' },
-];
+const options: Option[] = CATEGORIES.map((category: Category) => ({
+  value: category,
+  label: category[0].toUpperCase() + category.slice(1),
+}));
 
 const Add: NextPage = () => {
   const [values, setValues] = useState<PracticeCard>({

@@ -20,9 +20,7 @@ const IndexPage: NextPage = () => {
 
 IndexPage.getInitialProps = async ({ req, res }) => {
   if (res) {
-    res.writeHead(302, { Location: '/practice' });
-
-    res.end();
+    res.writeHead(302, { Location: '/practice' }).end();
   }
   return { res: 'redirect' };
 };

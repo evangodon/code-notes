@@ -1,5 +1,6 @@
 import React from 'react';
 import { NextPage } from 'next';
+import { useRouter } from 'next/router';
 import Link from 'next/link';
 import styled from 'styled-components';
 import { useQuery } from '@apollo/react-hooks';
@@ -25,9 +26,12 @@ export const ALL_PRACTICE_CARDS_QUERY = gql`
 
 /**
  * @todo: handle request error
+ * @todo: filter cards with category
  */
 const PracticeHome: NextPage = () => {
   const { loading, error, data } = useQuery(ALL_PRACTICE_CARDS_QUERY);
+  const router = useRouter();
+  const categoryFilter = router.query.category;
 
   return (
     <PracticeContainer>
@@ -35,9 +39,13 @@ const PracticeHome: NextPage = () => {
       <PracticeCards>
         {loading
           ? null
-          : data.practiceCards.map((card: IPracticeCard) => (
-              <PracticeCard practiceCard={card} key={card.id} />
-            ))}
+          : data.practiceCards
+              .filter((card: IPracticeCard) =>
+                categoryFilter ? card.category === categoryFilter : true
+              )
+              .map((card: IPracticeCard) => (
+                <PracticeCard practiceCard={card} key={card.id} />
+              ))}
       </PracticeCards>
       <Link href={ROUTES.PRACTICE.ADD}>
         <Button as="a">Add Card</Button>

@@ -18,7 +18,7 @@ const Categories = () => {
       params.delete('category');
     }
 
-    const queryString = category ? `/?${params.toString()}` : '';
+    const queryString = category ? `?${params.toString()}` : '';
     router.replace(`${ROUTES.PRACTICE.ROOT}${queryString}`);
   }
 
