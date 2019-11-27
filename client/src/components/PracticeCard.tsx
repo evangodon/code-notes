@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { PracticeCard as IPracticeCard } from '@interfaces';
 import { DevIcon } from './icons/DevIcons';
@@ -10,7 +10,7 @@ type Props = {
   practiceCard: IPracticeCard;
 };
 
-type Status = 'CORRECT' | 'INCORRECT' | 'DEFAULT';
+type Status = 'DEFAULT' | 'CORRECT' | 'INCORRECT' | 'SHOW_ANSWER';
 
 /**
  * @todo: Finish styling the attempts dots
@@ -19,6 +19,12 @@ const PracticeCard: React.FC<Props> = ({ practiceCard }) => {
   const [answer, setAnswer] = useState('');
   const [status, setStatus] = useState<Status>('DEFAULT');
   const [attempts, setAttemps] = useState<Status[]>([]);
+
+  useEffect(() => {
+    if (attempts.length === 5) {
+      setStatus('SHOW_ANSWER');
+    }
+  }, [attempts]);
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     setAnswer(event.target.value);
@@ -45,20 +51,26 @@ const PracticeCard: React.FC<Props> = ({ practiceCard }) => {
           <UpperCase text={practiceCard.category} />
         </Category>
         <Header>{practiceCard.question}</Header>
-        <AnswerInput
-          autoFocus
-          value={answer}
-          onChange={handleChange}
-          status={status}
-        />
+        {status === 'SHOW_ANSWER' ? (
+          <span>{`Answer: ${practiceCard.answer}`}</span>
+        ) : (
+          <AnswerInput
+            autoFocus
+            value={answer}
+            onChange={handleChange}
+            status={status}
+          />
+        )}
       </Form>
       <Bottom>
         <Attempts>
-          {attempts.map((attempt: Status) => (
-            <span>{attempt}</span>
+          {attempts.map((attempt: Status, index) => (
+            <AttemptDot attempt={attempt} key={index} />
           ))}
         </Attempts>
-        {status && <CloseButton>Close</CloseButton>}
+        {(status === 'CORRECT' || status === 'SHOW_ANSWER') && (
+          <CloseButton>Close</CloseButton>
+        )}
       </Bottom>
     </Container>
   );
@@ -94,6 +106,7 @@ const borderColor = {
   DEFAULT: 'transparent',
   CORRECT: 'var(--color-green)',
   INCORRECT: 'var(--color-red)',
+  SHOW_ANSWER: 0,
 };
 
 const AnswerInput = styled.input<{ status: Status }>`
@@ -114,6 +127,17 @@ const Bottom = styled.div`
 `;
 
 const Attempts = styled.div``;
+
+const AttemptDot = styled.span<{ attempt: Status }>`
+  display: inline-block;
+  --size: 1.6rem;
+  width: var(--size);
+  height: var(--size);
+  background-color: ${({ attempt, theme }) =>
+    attempt === 'CORRECT' ? theme.__color_green : theme.__color_red};
+  margin-right: 1rem;
+  border-radius: var(--border-radius);
+`;
 
 const CloseButton = styled(Button)`
   margin-left: auto;

@@ -9,7 +9,7 @@ const Button = styled.button<{ color?: string }>`
   cursor: pointer;
   transition: all 0.1s;
   font-size: var(--fs-xsmall);
-  --height: 4.2rem;
+  --height: 3.8rem;
   line-height: var(--height);
   height: var(--height);
   display: flex;
