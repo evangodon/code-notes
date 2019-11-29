@@ -3,14 +3,15 @@ import styled from 'styled-components';
 
 type Props = {
   label: string;
+  required?: boolean;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-const Input: React.FC<Props> = ({ label, onChange }) => {
+const Input: React.FC<Props> = ({ label, onChange, required = false }) => {
   return (
     <Container>
       <Label>{label}</Label>
-      <StyledInput onChange={onChange} />
+      <StyledInput onChange={onChange} required={required} />
     </Container>
   );
 };
@@ -27,7 +28,7 @@ const Label = styled.label`
   margin-bottom: 0.8rem;
 `;
 
-const StyledInput = styled.input`
+const StyledInput = styled.input<{ required: boolean }>`
   padding: 1.2rem;
   border-radius: var(--border-radius);
   border: 0;

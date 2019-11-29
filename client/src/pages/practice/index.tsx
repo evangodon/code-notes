@@ -26,7 +26,6 @@ export const ALL_PRACTICE_CARDS_QUERY = gql`
 
 /**
  * @todo: handle request error
- * @todo: filter cards with category
  */
 const PracticeHome: NextPage = () => {
   const [hidden, setHidden] = useState<Set<string | -1>>(new Set());
@@ -58,7 +57,7 @@ const PracticeHome: NextPage = () => {
               ))}
       </PracticeCards>
       <Link href={ROUTES.PRACTICE.ADD}>
-        <Button as="a">Add Card</Button>
+        <AddButton as="a">Add Card</AddButton>
       </Link>
     </PracticeContainer>
   );
@@ -66,7 +65,7 @@ const PracticeHome: NextPage = () => {
 
 export const PracticeContainer = styled(AppContainer)`
   display: grid;
-  grid-template-columns: 20rem 1fr 20rem;
+  grid-template-columns: 14.5rem 1fr 14.5rem;
 `;
 
 const PracticeCards = styled.ul`
@@ -75,5 +74,7 @@ const PracticeCards = styled.ul`
   flex-direction: column;
   width: 100%;
 `;
+
+const AddButton = styled(Button)``;
 
 export default withApollo(PracticeHome);

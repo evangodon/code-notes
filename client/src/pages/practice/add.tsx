@@ -46,7 +46,7 @@ const options: Option[] = CATEGORIES.map((category: Category) => ({
 
 const Add: NextPage = () => {
   const [values, setValues] = useState<PracticeCard>({
-    id: -1,
+    id: '',
     question: '',
     category: '',
     answer: '',
@@ -110,9 +110,17 @@ const Add: NextPage = () => {
               },
             })}
           />
-          <Input label="Question" onChange={handleChange('question')} />
-          <Input label="Answer" onChange={handleChange('answer')} />
-          <Button onClick={handleSubmit}>Submit</Button>
+          <Input label="Question" onChange={handleChange('question')} required />
+          <Input label="Answer" onChange={handleChange('answer')} required />
+          <Button
+            as="input"
+            type="submit"
+            onClick={handleSubmit}
+            disabled={
+              Object.values(values).filter(Boolean).length !==
+              Object.keys(values).length - 1
+            }
+          />
         </Form>
       </CenterContainer>
     </Container>

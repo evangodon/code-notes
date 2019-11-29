@@ -1,14 +1,15 @@
 import styled from 'styled-components';
 
-const Button = styled.button<{ color?: string }>`
+const Button = styled.button<{ color?: string; type?: string }>`
   text-transform: uppercase;
   border: 1px solid currentColor;
-  background-color: transparent;
+  background-color: #9f7aea3d;
   color: ${(props) => props.color || props.theme.__color_secondary};
   padding: 0 2.4rem;
   cursor: pointer;
   transition: all 0.1s;
   font-size: var(--fs-xsmall);
+  max-width: 16rem;
   --height: 3.8rem;
   line-height: var(--height);
   height: var(--height);
