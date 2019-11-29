@@ -6,6 +6,7 @@ import { GlobalStyles, variables as theme } from 'css';
 import Header from '@components/Header';
 import SubHeader from '@components/SubHeader';
 import DevIcons from '@components/icons/DevIcons';
+import Favicon from '@components/head/Favicon';
 
 export default class MyApp extends App {
   render() {
@@ -15,8 +16,8 @@ export default class MyApp extends App {
       <>
         <Head>
           <title>Code Notes</title>
-          <link rel="shortcut icon" type="image/x-icon" href="/static/favicon.ico" />
         </Head>
+        <Favicon />
         <ThemeProvider theme={theme}>
           <>
             <Header />
