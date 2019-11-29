@@ -14,7 +14,6 @@ type Props = {
 type Status = 'DEFAULT' | 'CORRECT' | 'INCORRECT' | 'SHOW_ANSWER';
 
 /**
- * @todo: Finish styling the attempts dots
  */
 const PracticeCard: React.FC<Props> = ({ practiceCard, hideCard }) => {
   const [answer, setAnswer] = useState('');
@@ -105,6 +104,7 @@ const Header = styled.h3`
   font-size: var(--fs-medium);
   font-weight: normal;
   margin-bottom: 2rem;
+  line-height: 1.4;
 `;
 
 const borderColor = {
