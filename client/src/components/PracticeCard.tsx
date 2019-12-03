@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { useSpring, animated as a } from 'react-spring';
 import { PracticeCard as IPracticeCard } from '@interfaces';
 import { DevIcon } from './icons/DevIcons';
 import UpperCase from './UpperCase';
@@ -47,35 +48,56 @@ const PracticeCard: React.FC<Props> = ({ practiceCard, hideCard }) => {
     }
   }
 
+  const flipped = status === 'SHOW_ANSWER';
+  const { transform, opacity } = useSpring({
+    opacity: flipped ? 1 : 0,
+    transform: `perspective(600px) rotateX(${flipped ? 180 : 0}deg)`,
+    config: { mass: 5, tension: 500, friction: 80 },
+  });
+
   return (
     <Container>
-      <Form onSubmit={onSubmit}>
-        <Category>
-          <DevIcon id={practiceCard.category} size={15} />
-          <UpperCase text={practiceCard.category} />
-        </Category>
-        <Header>{practiceCard.question}</Header>
-        {status === 'SHOW_ANSWER' ? (
-          <span>{`Answer: ${practiceCard.answer}`}</span>
-        ) : (
+      <QuestionSide
+        style={{
+          visibility: flipped ? 'hidden' : 'visible',
+          opacity: opacity.interpolate((o: any) => Number(1 - o)),
+          transform,
+        }}
+      >
+        <Form onSubmit={onSubmit}>
+          <Category>
+            <DevIcon id={practiceCard.category} size={15} />
+            <UpperCase text={practiceCard.category} />
+          </Category>
+          <Header>{practiceCard.question}</Header>
           <AnswerInput
             autoFocus
             value={answer}
             onChange={handleChange}
             status={status}
           />
-        )}
-      </Form>
-      <Bottom>
-        <Attempts>
-          {attempts.map((attempt: Status, index) => (
-            <AttemptDot attempt={attempt} key={index} />
-          ))}
-        </Attempts>
-        {(status === 'CORRECT' || status === 'SHOW_ANSWER') && (
-          <CloseButton onClick={handleCloseClick}>Close</CloseButton>
-        )}
-      </Bottom>
+        </Form>
+        <Bottom>
+          <Attempts>
+            {attempts.map((attempt: Status, index) => (
+              <AttemptDot attempt={attempt} key={index} />
+            ))}
+          </Attempts>
+          {status === 'CORRECT' && (
+            <CloseButton onClick={handleCloseClick}>Close</CloseButton>
+          )}
+        </Bottom>
+      </QuestionSide>
+      <AnswerSide
+        style={{
+          visibility: flipped ? 'visible' : 'hidden',
+          opacity,
+          transform: transform.interpolate((t) => `${t} rotateX(180deg)`),
+        }}
+      >
+        <Answer>{`Answer: ${practiceCard.answer}`}</Answer>
+        <CloseButton onClick={handleCloseClick}>Close</CloseButton>
+      </AnswerSide>
     </Container>
   );
 };
@@ -83,6 +105,25 @@ const PracticeCard: React.FC<Props> = ({ practiceCard, hideCard }) => {
 const Container = styled(Box)`
   max-width: 50rem;
   margin-bottom: 4.6rem;
+  position: relative;
+  padding: 0;
+  height: 20rem;
+  background-color: transparent;
+`;
+
+const Side = styled(Box)`
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  padding: 2.4rem;
+`;
+
+const QuestionSide = styled(Side)`
+  background-color: var(--grey-900);
+`;
+const AnswerSide = styled(Side)`
+  display: flex;
+  background-color: var(--grey-900);
 `;
 
 const Form = styled.form``;
@@ -144,7 +185,14 @@ const AttemptDot = styled.span<{ attempt: Status }>`
   border-radius: var(--border-radius);
 `;
 
+const Answer = styled.div`
+  display: flex;
+  align-items: center;
+  font-size: var(--fs-large);
+`;
+
 const CloseButton = styled(Button)`
+  margin-top: auto;
   margin-left: auto;
 `;
 

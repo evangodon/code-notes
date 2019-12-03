@@ -1,9 +1,10 @@
 import styled from 'styled-components';
+import { transparentize } from 'polished';
 
 const Button = styled.button<{ color?: string; type?: string }>`
   text-transform: uppercase;
   border: 1px solid currentColor;
-  background-color: #9f7aea3d;
+  background-color: ${(props) => transparentize(0.8, props.theme.__color_secondary)};
   color: ${(props) => props.color || props.theme.__color_secondary};
   padding: 0 2.4rem;
   cursor: pointer;

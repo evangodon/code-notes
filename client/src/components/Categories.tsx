@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useRouter } from 'next/router';
 import Box from '@components/layout/Box';
 import { DevIcon } from '@components/icons/DevIcons';
+import UpperCase from '@components/UpperCase';
 import { CATEGORIES } from 'constants/index';
 import { ROUTES } from 'constants/routes';
 import { Category as ICategory } from '@interfaces';
@@ -32,7 +33,7 @@ const Categories = () => {
           {CATEGORIES.map((category, index) => (
             <Category key={index} onClick={() => handleClick(category)}>
               <DevIcon id={category} size={15} />
-              <span>{category}</span>
+              <UpperCase text={category} />
             </Category>
           ))}
           {categoryFilter && (

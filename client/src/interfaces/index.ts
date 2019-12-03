@@ -1,4 +1,10 @@
-export type Category = 'python' | 'node' | 'javascript' | 'docker' | '';
+export type Category =
+  | 'python'
+  | 'node'
+  | 'javascript'
+  | 'docker'
+  | 'postgresql'
+  | '';
 
 export interface PracticeCard {
   id: string | -1;
