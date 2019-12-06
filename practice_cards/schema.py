@@ -1,5 +1,6 @@
 import graphene
 from graphene_django import DjangoObjectType
+from graphql import GraphQLError
 
 from .models import PracticeCard
 
@@ -53,10 +54,12 @@ class DeletePracticeCard(graphene.Mutation):
         id = graphene.ID()
 
     def mutate(self, info, id):
-        instance = PracticeCard.objects.get(id=id)
-        instance.delete()
-
-        return True
+        try:
+            instance = PracticeCard.objects.get(id=id)
+            instance.delete()
+            return True
+        except:
+            raise GraphQLError(f'Card with id {id} was not found.')
 
 
 class Mutation(graphene.ObjectType):
