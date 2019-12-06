@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { useTransition, animated } from 'react-spring';
 import { useRouter } from 'next/router';
 import { PracticeCard as IPracticeCard } from '@interfaces';
 import PracticeCard from '@components/PracticeCard';
@@ -22,30 +21,19 @@ const PracticeCards: React.FC<Props> = ({ loading, practiceCards }) => {
     setHidden(new Set(hidden).add(id));
   }
 
-  const transitions = useTransition(practiceCards || [], (item) => item.id, {
-    from: { transform: 'translate3d(0,-40px,0)' },
-    enter: { transform: 'translate3d(0,0px,0)' },
-    leave: { transform: 'translate3d(0,-100px,0)' },
-  });
-
   if (loading) {
     return <Container />;
   }
 
   return (
     <Container>
-      {transitions
-        .filter(({ item }) => !hidden.has(item.id))
-        .filter(({ item }) =>
-          categoryFilter ? item.category === categoryFilter : true
+      {practiceCards
+        .filter((card: IPracticeCard) => !hidden.has(card.id))
+        .filter((card: IPracticeCard) =>
+          categoryFilter ? card.category === categoryFilter : true
         )
-        .map(({ item, props, key }) => (
-          <PracticeCard
-            practiceCard={item}
-            key={key}
-            hideCard={hideCard}
-            style={props}
-          />
+        .map((card) => (
+          <PracticeCard practiceCard={card} key={card.id} hideCard={hideCard} />
         ))}
     </Container>
   );
