@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { useSpring, animated as a } from 'react-spring';
+import { useSpring } from 'react-spring';
+import { MoreVertical } from 'react-feather';
+import { useMutation } from '@apollo/react-hooks';
+import gql from 'graphql-tag';
 import { PracticeCard as IPracticeCard } from '@interfaces';
-import { DevIcon } from './icons/DevIcons';
-import UpperCase from './UpperCase';
+import { DevIcon } from '@components/icons/DevIcons';
+import UpperCase from '@components/UpperCase';
 import Box from '@components/layout/Box';
 import Button from '@components/Button';
 
@@ -14,18 +17,34 @@ type Props = {
 
 type Status = 'DEFAULT' | 'CORRECT' | 'INCORRECT' | 'SHOW_ANSWER';
 
+const DELETE_CARD = gql`
+  mutation DeletePracticeCard($id: ID!) {
+    deletePracticeCard(id: $id) {
+      id
+    }
+  }
+`;
+
 /**
+ * @todo: Extract mutation and styles to seperate files.
+ * @todo: Hide menu options on click outside
  */
 const PracticeCard: React.FC<Props> = ({ practiceCard, hideCard }) => {
   const [answer, setAnswer] = useState('');
+  const [optionsOpen, setOptionsOpen] = useState(false);
   const [status, setStatus] = useState<Status>('DEFAULT');
   const [attempts, setAttemps] = useState<Status[]>([]);
+  const [deleteCard] = useMutation(DELETE_CARD);
 
   useEffect(() => {
     if (attempts.length === 5) {
       setStatus('SHOW_ANSWER');
     }
   }, [attempts]);
+
+  function toggleOptionsMenu() {
+    setOptionsOpen(!optionsOpen);
+  }
 
   function handleCloseClick() {
     hideCard(String(practiceCard.id));
@@ -69,6 +88,14 @@ const PracticeCard: React.FC<Props> = ({ practiceCard, hideCard }) => {
             <DevIcon id={practiceCard.category} size={15} />
             <UpperCase text={practiceCard.category} />
           </Category>
+          <Options onClick={toggleOptionsMenu} />
+          {optionsOpen && (
+            <OptionsMenu>
+              <li onClick={() => deleteCard({ variables: { id: practiceCard.id } })}>
+                Delete
+              </li>
+            </OptionsMenu>
+          )}
           <Header>{practiceCard.question}</Header>
           <AnswerInput
             autoFocus
@@ -109,6 +136,30 @@ const Container = styled(Box)`
   padding: 0;
   height: 20rem;
   background-color: transparent;
+  position: relative;
+`;
+
+const Options = styled(MoreVertical)`
+  position: absolute;
+  right: 2rem;
+  top: 2rem;
+  width: 1.6rem;
+  cursor: pointer;
+`;
+
+const OptionsMenu = styled.ul`
+  position: absolute;
+  right: 2rem;
+  top: 4.5rem;
+  font-size: var(--fs-small);
+  padding: 0.4rem 0.8rem;
+  border-radius: var(--border-radius);
+  background-color: var(--white);
+  color: var(--grey-900);
+
+  li {
+    cursor: pointer;
+  }
 `;
 
 const Side = styled(Box)`

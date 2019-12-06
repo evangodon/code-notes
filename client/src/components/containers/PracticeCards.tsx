@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
 import { PracticeCard as IPracticeCard } from '@interfaces';
-import PracticeCard from '@components/PracticeCard';
+import PracticeCard from '@components/PracticeCard/PracticeCard';
 
 type Props = {
   loading: boolean;

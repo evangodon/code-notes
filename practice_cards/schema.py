@@ -46,5 +46,19 @@ class CreatePracticeCard(graphene.Mutation):
         )
 
 
+class DeletePracticeCard(graphene.Mutation):
+    id = graphene.ID()
+
+    class Arguments:
+        id = graphene.ID()
+
+    def mutate(self, info, id):
+        instance = PracticeCard.objects.get(id=id)
+        instance.delete()
+
+        return True
+
+
 class Mutation(graphene.ObjectType):
     create_practice_card = CreatePracticeCard.Field()
+    delete_practice_card = DeletePracticeCard.Field()
