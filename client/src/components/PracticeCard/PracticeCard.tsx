@@ -15,9 +15,9 @@ import {
   Category,
   Options,
   OptionsMenu,
-  Header,
+  Question,
   AnswerInput,
-  Bottom,
+  AttemptsContainer,
   AttemptDot,
   Attempts,
   Answer,
@@ -32,7 +32,10 @@ type Props = {
 export type Status = 'DEFAULT' | 'CORRECT' | 'INCORRECT' | 'SHOW_ANSWER';
 
 /**
- * @todo: Hide menu options on click outside (Use outside click hook)
+ * Renders a practice card
+ *
+ * @param {PracticeCard} practiceCard
+ * @param {function} hideCard
  */
 const PracticeCard: React.FC<Props> = ({ practiceCard, hideCard }) => {
   const [answer, setAnswer] = useState('');
@@ -118,7 +121,17 @@ const PracticeCard: React.FC<Props> = ({ practiceCard, hideCard }) => {
               </li>
             </OptionsMenu>
           )}
-          <Header>{practiceCard.question}</Header>
+          <Question>{practiceCard.question}</Question>
+          <AttemptsContainer>
+            <Attempts>
+              {attempts.map((attempt: Status, index) => (
+                <AttemptDot attempt={attempt} key={index} />
+              ))}
+            </Attempts>
+            {status === 'CORRECT' && (
+              <CloseButton onClick={handleCloseClick}>Close</CloseButton>
+            )}
+          </AttemptsContainer>
           <AnswerInput
             autoFocus
             value={answer}
@@ -126,16 +139,6 @@ const PracticeCard: React.FC<Props> = ({ practiceCard, hideCard }) => {
             status={status}
           />
         </Form>
-        <Bottom>
-          <Attempts>
-            {attempts.map((attempt: Status, index) => (
-              <AttemptDot attempt={attempt} key={index} />
-            ))}
-          </Attempts>
-          {status === 'CORRECT' && (
-            <CloseButton onClick={handleCloseClick}>Close</CloseButton>
-          )}
-        </Bottom>
       </QuestionSide>
       <AnswerSide
         style={{

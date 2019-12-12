@@ -165,6 +165,7 @@ const CenterContainer = styled(Box)`
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 4.2rem;
 `;
 
 const Form = styled.form`

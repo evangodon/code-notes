@@ -55,7 +55,11 @@ export const AnswerSide = styled(Side)`
   background-color: var(--grey-900);
 `;
 
-export const Form = styled.form``;
+export const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+`;
 
 export const Category = styled.span`
   display: inline-flex;
@@ -70,11 +74,12 @@ export const Category = styled.span`
   }
 `;
 
-export const Header = styled.h3`
+export const Question = styled.h3`
   font-size: var(--fs-medium);
   font-weight: normal;
   margin-bottom: 2rem;
   line-height: 1.4;
+  flex: 1;
 `;
 
 export const borderColor: { [index: string]: string | 0 } = {
@@ -85,6 +90,7 @@ export const borderColor: { [index: string]: string | 0 } = {
 };
 
 export const AnswerInput = styled.input<{ status: Status }>`
+  margin-top: auto;
   outline: none;
   padding: 0.8rem 1.2rem;
   border-radius: 2px;
@@ -95,10 +101,10 @@ export const AnswerInput = styled.input<{ status: Status }>`
   width: 100%;
 `;
 
-export const Bottom = styled.div`
+export const AttemptsContainer = styled.div`
   display: flex;
   align-items: center;
-  margin-top: 1.8rem;
+  margin-bottom: 1.2rem;
 `;
 
 export const Attempts = styled.div``;
