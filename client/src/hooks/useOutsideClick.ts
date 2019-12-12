@@ -1,5 +1,9 @@
 import React, { useEffect } from 'react';
 
+/**
+ * @param ref - The ref created using React.useRef
+ * @param handler - A function that will get called on an outside click of ref
+ */
 export const useOutsideClick = (
   ref: React.RefObject<HTMLElement | undefined>,
   handler: () => void
