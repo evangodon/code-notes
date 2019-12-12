@@ -21,7 +21,7 @@
       "css": ["./src/css"],
       "constants/*": ["./src/constants/*"],
       "context": ["./src/context"],
-      "hooks/*": ["./src/hooks/*"],
+      "@hooks/*": ["./src/hooks/*"],
       "api/*": ["src/pages/api/*"],
       "@interfaces": ["./src/interfaces"],
       "utils/*": ["./src/utils/*"]

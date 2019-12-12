@@ -1,40 +1,62 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
 import { useSpring } from 'react-spring';
-import { MoreVertical } from 'react-feather';
 import { useMutation } from '@apollo/react-hooks';
-import gql from 'graphql-tag';
 import { PracticeCard as IPracticeCard } from '@interfaces';
 import { DevIcon } from '@components/icons/DevIcons';
 import UpperCase from '@components/UpperCase';
-import Box from '@components/layout/Box';
-import Button from '@components/Button';
+import { DELETE_CARD } from './queries';
+import { ALL_PRACTICE_CARDS_QUERY } from '@pages/practice/index';
+import { useOutsideClick } from '@hooks/useOutsideClick';
+import {
+  Container,
+  QuestionSide,
+  AnswerSide,
+  Form,
+  Category,
+  Options,
+  OptionsMenu,
+  Header,
+  AnswerInput,
+  Bottom,
+  AttemptDot,
+  Attempts,
+  Answer,
+  CloseButton,
+} from './styles';
 
 type Props = {
   practiceCard: IPracticeCard;
   hideCard: (id: string) => void;
 };
 
-type Status = 'DEFAULT' | 'CORRECT' | 'INCORRECT' | 'SHOW_ANSWER';
-
-const DELETE_CARD = gql`
-  mutation DeletePracticeCard($id: ID!) {
-    deletePracticeCard(id: $id) {
-      id
-    }
-  }
-`;
+export type Status = 'DEFAULT' | 'CORRECT' | 'INCORRECT' | 'SHOW_ANSWER';
 
 /**
- * @todo: Extract mutation and styles to seperate files.
- * @todo: Hide menu options on click outside
+ * @todo: Hide menu options on click outside (Use outside click hook)
  */
 const PracticeCard: React.FC<Props> = ({ practiceCard, hideCard }) => {
   const [answer, setAnswer] = useState('');
+  let optionsMenuRef = React.useRef<HTMLUListElement>(null);
   const [optionsOpen, setOptionsOpen] = useState(false);
+  useOutsideClick(optionsMenuRef, () => setOptionsOpen(false));
   const [status, setStatus] = useState<Status>('DEFAULT');
   const [attempts, setAttemps] = useState<Status[]>([]);
-  const [deleteCard] = useMutation(DELETE_CARD);
+  const [deleteCard] = useMutation(DELETE_CARD, {
+    update(cache) {
+      const { practiceCards } = cache.readQuery({
+        query: ALL_PRACTICE_CARDS_QUERY,
+      }) || { practiceCards: [] };
+
+      cache.writeQuery({
+        query: ALL_PRACTICE_CARDS_QUERY,
+        data: {
+          practiceCards: practiceCards.filter(
+            (card: IPracticeCard) => card.id !== practiceCard.id
+          ),
+        },
+      });
+    },
+  });
 
   useEffect(() => {
     if (attempts.length === 5) {
@@ -90,7 +112,7 @@ const PracticeCard: React.FC<Props> = ({ practiceCard, hideCard }) => {
           </Category>
           <Options onClick={toggleOptionsMenu} />
           {optionsOpen && (
-            <OptionsMenu>
+            <OptionsMenu ref={optionsMenuRef}>
               <li onClick={() => deleteCard({ variables: { id: practiceCard.id } })}>
                 Delete
               </li>
@@ -128,123 +150,5 @@ const PracticeCard: React.FC<Props> = ({ practiceCard, hideCard }) => {
     </Container>
   );
 };
-
-const Container = styled(Box)`
-  max-width: 50rem;
-  margin-bottom: 4.6rem;
-  position: relative;
-  padding: 0;
-  height: 20rem;
-  background-color: transparent;
-  position: relative;
-`;
-
-const Options = styled(MoreVertical)`
-  position: absolute;
-  right: 2rem;
-  top: 2rem;
-  width: 1.6rem;
-  cursor: pointer;
-`;
-
-const OptionsMenu = styled.ul`
-  position: absolute;
-  right: 2rem;
-  top: 4.5rem;
-  font-size: var(--fs-small);
-  padding: 0.4rem 0.8rem;
-  border-radius: var(--border-radius);
-  background-color: var(--white);
-  color: var(--grey-900);
-
-  li {
-    cursor: pointer;
-  }
-`;
-
-const Side = styled(Box)`
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  padding: 2.4rem;
-`;
-
-const QuestionSide = styled(Side)`
-  background-color: var(--grey-900);
-`;
-const AnswerSide = styled(Side)`
-  display: flex;
-  background-color: var(--grey-900);
-`;
-
-const Form = styled.form``;
-
-const Category = styled.span`
-  display: inline-flex;
-  align-items: center;
-  font-size: var(--fs-small);
-  padding: 0.4rem 0.8rem;
-  margin-bottom: 1.2rem;
-  border-radius: 10px;
-
-  svg {
-    margin-right: 0.4rem;
-  }
-`;
-
-const Header = styled.h3`
-  font-size: var(--fs-medium);
-  font-weight: normal;
-  margin-bottom: 2rem;
-  line-height: 1.4;
-`;
-
-const borderColor = {
-  DEFAULT: 'transparent',
-  CORRECT: 'var(--color-green)',
-  INCORRECT: 'var(--color-red)',
-  SHOW_ANSWER: 0,
-};
-
-const AnswerInput = styled.input<{ status: Status }>`
-  outline: none;
-  padding: 0.8rem 1.2rem;
-  border-radius: 2px;
-  background-color: var(--grey-300);
-  font-family: monospace;
-  color: var(--grey-900);
-  border: 2px solid ${(props) => borderColor[props.status]};
-  width: 100%;
-`;
-
-const Bottom = styled.div`
-  display: flex;
-  align-items: center;
-  margin-top: 1.8rem;
-`;
-
-const Attempts = styled.div``;
-
-const AttemptDot = styled.span<{ attempt: Status }>`
-  display: inline-block;
-  --size: 1.6rem;
-  width: var(--size);
-  height: var(--size);
-  background-color: ${({ attempt, theme }) =>
-    attempt === 'CORRECT' ? theme.__color_green : theme.__color_red};
-  margin-right: 1rem;
-  border-radius: var(--border-radius);
-`;
-
-const Answer = styled.div`
-  display: flex;
-  align-items: center;
-  font-size: var(--fs-large);
-`;
-
-const CloseButton = styled(Button)`
-  margin-top: auto;
-  margin-left: auto;
-`;
 
 export default PracticeCard;
