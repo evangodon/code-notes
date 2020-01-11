@@ -41,5 +41,8 @@
     "babel-plugin-module-resolver": "^3.2.0",
     "babel-plugin-styled-components": "^1.10.6",
     "typescript": "^3.7.2"
+  },
+  "engines": {
+    "node": "12.x"
   }
 }
