@@ -21,7 +21,7 @@ export const variables: { [index: string]: string } = {
   __grey_500: '#a0aec0',
   __grey_600: '#718096',
   __grey_700: '#4a5568',
-  __grey_800: '#2d3748',
+  __grey_800: '#33363b',
   __grey_900: '#1e1f22',
 
   /* Font-sizes */
