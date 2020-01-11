@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 const routes = {
   home: { route: 'Home', asPath: '/' },
-  practice: { route: 'Practice', asPath: '/practice' },
+  practice: { route: 'Flash Cards', asPath: '/practice' },
 };
 
 const SubHeader = () => {
@@ -47,6 +47,7 @@ const Routes = styled.ul`
 
 const Route = styled.li<{ active: boolean }>`
   padding: 1.6rem 0.6rem;
+  white-space: nowrap;
   border-bottom: 2px solid
     ${(props) => (props.active ? 'currentColor' : 'transparent')};
 `;
