@@ -33,6 +33,7 @@ const SubHeader = () => {
 const Container = styled.nav`
   background-color: var(--grey-900);
   margin-bottom: 6rem;
+  border-bottom: 1px solid var(--color-primary);
 `;
 
 const Routes = styled.ul`

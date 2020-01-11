@@ -40,7 +40,7 @@ export const OptionsMenu = styled.ul`
   }
 `;
 
-export const Side = styled(Box)`
+export const Side = styled.div`
   width: 100%;
   height: 100%;
   position: absolute;

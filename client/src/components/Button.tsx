@@ -3,9 +3,10 @@ import { transparentize } from 'polished';
 
 const Button = styled.button<{ color?: string; type?: string }>`
   text-transform: uppercase;
+  font-weight: 600;
   border: 1px solid currentColor;
-  background-color: ${(props) => transparentize(0.8, props.theme.__color_secondary)};
-  color: ${(props) => props.color || props.theme.__color_secondary};
+  background-color: ${(props) => transparentize(0.9, props.theme.__color_primary)};
+  color: ${(props) => props.color || props.theme.__color_primary};
   padding: 0 2.4rem;
   cursor: pointer;
   transition: all 0.1s;
