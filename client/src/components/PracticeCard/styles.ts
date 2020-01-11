@@ -65,7 +65,6 @@ export const Category = styled.span`
   display: inline-flex;
   align-items: center;
   font-size: var(--fs-small);
-  padding: 0.4rem 0.8rem;
   margin-bottom: 1.2rem;
   border-radius: 10px;
 
