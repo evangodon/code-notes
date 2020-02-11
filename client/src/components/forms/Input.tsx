@@ -33,6 +33,8 @@ const StyledInput = styled.input<{ required: boolean }>`
   border-radius: var(--border-radius);
   border: 0;
   font-size: var(--fs-medium);
+  background-color: red;
+  border: 1px solid red;
 `;
 
 export default Input;

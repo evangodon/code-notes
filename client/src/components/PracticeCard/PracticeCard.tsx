@@ -32,7 +32,7 @@ type Props = {
 export type Status = 'DEFAULT' | 'CORRECT' | 'INCORRECT' | 'SHOW_ANSWER';
 
 /**
- * Renders a practice card
+ *
  *
  * @param {PracticeCard} practiceCard
  * @param {function} hideCard
@@ -92,64 +92,50 @@ const PracticeCard: React.FC<Props> = ({ practiceCard, hideCard }) => {
     }
   }
 
-  const flipped = status === 'SHOW_ANSWER';
-  const { transform, opacity } = useSpring({
-    opacity: flipped ? 1 : 0,
-    transform: `perspective(600px) rotateX(${flipped ? 180 : 0}deg)`,
-    config: { mass: 5, tension: 500, friction: 80 },
-  });
-
   return (
     <Container>
-      <QuestionSide
-        style={{
-          visibility: flipped ? 'hidden' : 'visible',
-          opacity: opacity.interpolate((o: any) => Number(1 - o)),
-          transform,
-        }}
-      >
-        <Form onSubmit={onSubmit}>
-          <Category>
-            <DevIcon id={practiceCard.category} size={15} />
-            <UpperCase text={practiceCard.category} />
-          </Category>
-          <Options onClick={toggleOptionsMenu} />
-          {optionsOpen && (
-            <OptionsMenu ref={optionsMenuRef}>
-              <li onClick={() => deleteCard({ variables: { id: practiceCard.id } })}>
-                Delete
-              </li>
-            </OptionsMenu>
-          )}
-          <Question>{practiceCard.question}</Question>
-          <AttemptsContainer>
-            <Attempts>
-              {attempts.map((attempt: Status, index) => (
-                <AttemptDot attempt={attempt} key={index} />
-              ))}
-            </Attempts>
-            {status === 'CORRECT' && (
-              <CloseButton onClick={handleCloseClick}>Close</CloseButton>
+      {status !== 'SHOW_ANSWER' ? (
+        <QuestionSide style={{}}>
+          <Form onSubmit={onSubmit}>
+            <Category>
+              <DevIcon id={practiceCard.category} size={15} />
+              <UpperCase text={practiceCard.category} />
+            </Category>
+            <Options onClick={toggleOptionsMenu} />
+            {optionsOpen && (
+              <OptionsMenu ref={optionsMenuRef}>
+                <li
+                  onClick={() => deleteCard({ variables: { id: practiceCard.id } })}
+                >
+                  Delete
+                </li>
+              </OptionsMenu>
             )}
-          </AttemptsContainer>
-          <AnswerInput
-            autoFocus
-            value={answer}
-            onChange={handleChange}
-            status={status}
-          />
-        </Form>
-      </QuestionSide>
-      <AnswerSide
-        style={{
-          visibility: flipped ? 'visible' : 'hidden',
-          opacity,
-          transform: transform.interpolate((t) => `${t} rotateX(180deg)`),
-        }}
-      >
-        <Answer>{`Answer: ${practiceCard.answer}`}</Answer>
-        <CloseButton onClick={handleCloseClick}>Close</CloseButton>
-      </AnswerSide>
+            <Question>{practiceCard.question}</Question>
+            <AttemptsContainer>
+              <Attempts>
+                {attempts.map((attempt: Status, index) => (
+                  <AttemptDot attempt={attempt} key={index} />
+                ))}
+              </Attempts>
+              {status === 'CORRECT' && (
+                <CloseButton onClick={handleCloseClick}>Close</CloseButton>
+              )}
+            </AttemptsContainer>
+            <AnswerInput
+              autoFocus
+              value={answer}
+              onChange={handleChange}
+              status={status}
+            />
+          </Form>
+        </QuestionSide>
+      ) : (
+        <AnswerSide>
+          <Answer>{`Answer: ${practiceCard.answer}`}</Answer>
+          <CloseButton onClick={handleCloseClick}>Close</CloseButton>
+        </AnswerSide>
+      )}
     </Container>
   );
 };

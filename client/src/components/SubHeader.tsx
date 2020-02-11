@@ -4,8 +4,7 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 
 const routes = {
-  home: { route: 'Home', asPath: '/' },
-  practice: { route: 'Flash Cards', asPath: '/practice' },
+  practice: { route: 'Cards', asPath: '/practice' },
 };
 
 const SubHeader = () => {

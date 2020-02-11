@@ -65,12 +65,11 @@ const Category = styled.li`
   transition: color, filter 0.2s ease;
 
   svg {
-    margin-right: 0.4rem;
+    margin-right: 0.7rem;
     filter: grayscale(0.5);
   }
 
   &:hover {
-    color: var(--white);
     font-weight: bold;
   }
 

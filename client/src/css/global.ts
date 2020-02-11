@@ -17,11 +17,11 @@ const GlobalStyle = createGlobalStyle`
     font-family: 'roboto-mono', monospace;
     font-weight: 400;
     font-size: var(--fs-base);
-    letter-spacing: 0.3px;
+    letter-spacing: 0.5px;
     margin: 0;
     padding: 0;
-    background-color: var(--grey-800);
-    color: #fff;
+    background-color: var(--grey-900);
+    color: var(--fc-default);
   }
 
   * {

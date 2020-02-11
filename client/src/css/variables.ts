@@ -3,13 +3,13 @@ import { css } from 'styled-components';
 export const variables: { [index: string]: string } = {
   /* Colors */
   __color_primary_light: '#90cdf4',
-  __color_primary: '#4299e1',
-  __color_primary_dark: '#2b6cb0',
+  __color_primary: '#FF1744',
+  __color_primary_dark: '#00E676',
   __color_secondary_light: '#d6bcfa',
   __color_secondary: '#9f7aea',
   __color_secondary_dark: '#6b46c1',
 
-  __color_green: '#48BB78',
+  __color_green: '#00E676',
   __color_red: '#E53E3E',
 
   __white: '#ffffff',
@@ -32,8 +32,11 @@ export const variables: { [index: string]: string } = {
   __fs_large: '2rem',
   __fs_xlarge: '3.6rem',
 
+  /* Font Color */
+  __fc_default: 'var(--color-primary)',
+
   __app_width: '100rem',
-  __border_radius: '3px',
+  __border_radius: '0',
 };
 
 /* Turn js keys into valid css custom properties */

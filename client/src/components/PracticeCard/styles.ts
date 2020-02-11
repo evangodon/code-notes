@@ -3,6 +3,7 @@ import { MoreVertical } from 'react-feather';
 import Box from '@components/layout/Box';
 import Button from '@components/Button';
 import { Status } from './PracticeCard';
+import { transparentize } from 'polished';
 
 export const Container = styled(Box)`
   max-width: 50rem;
@@ -10,7 +11,6 @@ export const Container = styled(Box)`
   position: relative;
   padding: 0;
   height: 20rem;
-  background-color: transparent;
   position: relative;
 `;
 
@@ -29,6 +29,7 @@ export const OptionsMenu = styled.ul`
   font-size: var(--fs-small);
   background-color: var(--white);
   color: var(--grey-900);
+  background-color: ${(props) => transparentize(0.95, props.theme.__color_primary)};
   border-radius: var(--border-radius);
 
   li {
@@ -47,12 +48,10 @@ export const Side = styled.div`
   padding: 2.4rem;
 `;
 
-export const QuestionSide = styled(Side)`
-  background-color: var(--grey-900);
-`;
+export const QuestionSide = styled(Side)``;
+
 export const AnswerSide = styled(Side)`
   display: flex;
-  background-color: var(--grey-900);
 `;
 
 export const Form = styled.form`
@@ -82,7 +81,7 @@ export const Question = styled.h3`
 `;
 
 export const borderColor: { [index: string]: string | 0 } = {
-  DEFAULT: 'transparent',
+  DEFAULT: 'var(--color-primary)',
   CORRECT: 'var(--color-green)',
   INCORRECT: 'var(--color-red)',
   SHOW_ANSWER: 0,
@@ -92,12 +91,11 @@ export const AnswerInput = styled.input<{ status: Status }>`
   margin-top: auto;
   outline: none;
   padding: 0.8rem 1.2rem;
-  border-radius: 2px;
-  background-color: var(--grey-300);
-  font-family: monospace;
-  color: var(--grey-900);
-  border: 2px solid ${(props) => borderColor[props.status]};
+  background-color: transparent;
+  color: var(--color-primary);
+  border: 1px solid ${(props) => borderColor[props.status]};
   width: 100%;
+  font-size: var(--fs-small);
 `;
 
 export const AttemptsContainer = styled.div`
